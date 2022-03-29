@@ -2655,8 +2655,7 @@ class Quiz_Maker_Data {
             $settings_placeholders_texts = array();
         }
 
-        $quiz_fields_placeholder_nick  = (isset($settings_placeholders_texts['quiz_fields_placeholder_nick']) && $settings_placeholders_texts['quiz_fields_placeholder_nick'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_nick'] ) ) : 'Nick';
-
+       
         $quiz_fields_placeholder_name  = (isset($settings_placeholders_texts['quiz_fields_placeholder_name']) && $settings_placeholders_texts['quiz_fields_placeholder_name'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_name'] ) ) : 'Name';
 
         $quiz_fields_placeholder_eamil = (isset($settings_placeholders_texts['quiz_fields_placeholder_eamil']) && $settings_placeholders_texts['quiz_fields_placeholder_eamil'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_eamil'] ) ) : 'Email';
@@ -2671,6 +2670,7 @@ class Quiz_Maker_Data {
 
         $quiz_fields_label_phone = (isset($settings_placeholders_texts['quiz_fields_label_phone']) && $settings_placeholders_texts['quiz_fields_label_phone'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_label_phone'] ) ) : 'Phone Number';
 
+        $quiz_fields_placeholder_nick  = (isset($settings_placeholders_texts['quiz_fields_placeholder_nick']) && $settings_placeholders_texts['quiz_fields_placeholder_nick'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_nick'] ) ) : 'Nick';
 
         if ($quiz_fields_placeholder_nick === 'Nick') {
             $quiz_fields_placeholder_nick_text = __('Nick', AYS_QUIZ_NICK);
