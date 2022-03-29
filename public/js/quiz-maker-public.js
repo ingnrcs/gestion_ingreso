@@ -1504,6 +1504,7 @@
                     var empty_inputs2 = 0;
                     var phoneInput = $(this).parents('.step').find('input[name="ays_user_phone"]');
                     var emailInput = $(this).parents('.step').find('input[name="ays_user_email"]');
+                    var nickInput = $(this).parents('.step').find('input[name="ays_nick_name"]');
                     var selectAttr = $(this).parents('.step').find('select.ays_quiz_form_input[required]');
                     if(phoneInput.val() != ''){
                         phoneInput.removeClass('ays_red_border');
@@ -1562,6 +1563,7 @@
                         var empty_inputs = 0;
                         var phoneInput = $(this).parents('.step').find('input[name="ays_user_phone"]');
                         var emailInput = $(this).parents('.step').find('input[name="ays_user_email"]');
+                        var nickInput = $(this).parents('.step').find('input[name="ays_nick_name"]');
                         var emailInputs = $(this).parents('.step').find('input[type="email"]');
                         if(phoneInput.val() != ''){
                             phoneInput.removeClass('ays_red_border');

@@ -80,9 +80,9 @@
                     data: userData,
                     success: function (response) {
                         if(response !== null){
-                            $this.find("input[name='ays_nick_name']").val(response.data.display_nick);
                             $this.find("input[name='ays_user_name']").val(response.data.display_name);
                             $this.find("input[name='ays_user_email']").val(response.data.user_email);
+                            $this.find("input[name='ays_nick_name']").val(response.data.display_nick);
                         }
                     }
                 });
@@ -290,6 +290,7 @@
                     var empty_inputs2 = 0;
                     var phoneInput = $(this).parents('.step').find('input[name="ays_user_phone"]');
                     var emailInput = $(this).parents('.step').find('input[name="ays_user_email"]');
+                    var nickImput  = $(this).parents('.step').find('input[name="ays_nick_name"]');
                     var selectAttr = $(this).parents('.step').find('select.ays_quiz_form_input[required]');
                     if(phoneInput.val() != ''){
                         phoneInput.removeClass('ays_red_border');
@@ -333,6 +334,7 @@
                         var empty_inputs = 0;
                         var phoneInput = $(this).parents('.step').find('input[name="ays_user_phone"]');
                         var emailInput = $(this).parents('.step').find('input[name="ays_user_email"]');
+                        var nickImput  = $(this).parents('.step').find('input[name="ays_nick_name"]');
                         var emailInputs = $(this).parents('.step').find('input[type="email"]');
                         if(phoneInput.val() != ''){
                             phoneInput.removeClass('ays_red_border');

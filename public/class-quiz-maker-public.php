@@ -859,7 +859,7 @@ class Quiz_Maker_Public {
 
         $quiz_attributes = Quiz_Maker_Data::get_quiz_attributes_by_id($id, true);
         $quiz_attributes_order = (isset($options['quiz_attributes_active_order'])) ? $options['quiz_attributes_active_order'] : array();
-        $default_attributes = array("ays_user_name", "ays_user_email", "ays_user_phone","ays_form_nick");
+        $default_attributes = array("ays_user_name", "ays_user_email", "ays_user_phone","ays_nick_name");
         $quiz_attributes_back = array("ays_form_name", "ays_form_email", "ays_form_phone", "ays_form_nick");
 
         // Show information form to logged in users
@@ -8134,11 +8134,12 @@ class Quiz_Maker_Public {
             }
         }
 
-        $quiz_attributes['ays_form_nick'] = isset($_POST['ays_nick_name'])  && $_POST['ays_nick_name']  != '' ? sanitize_text_field( $_POST['ays_nick_name'] )  : '';
+        
         $quiz_attributes['ays_form_name'] = isset($_POST['ays_user_name'])  && $_POST['ays_user_name']  != '' ? sanitize_text_field( $_POST['ays_user_name'] )  : '';
         $quiz_attributes['ays_form_email'] = isset($_POST['ays_user_email']) && $_POST['ays_user_email'] != '' ? sanitize_email( $_POST['ays_user_email'] ) : '';
         $quiz_attributes['ays_form_phone'] = isset($_POST['ays_user_phone']) && $_POST['ays_user_phone'] != '' ? sanitize_text_field( $_POST['ays_user_phone'] ) : '';
-
+        $quiz_attributes['ays_form_nick'] = isset($_POST['ays_nick_name'])  && $_POST['ays_nick_name']  != '' ? sanitize_text_field( $_POST['ays_nick_name'] )  : '';
+        
         $sheet_id      = isset($data['sheed_id']) && $data['sheed_id'] != '' ? $data['sheed_id'] : '';
         $refresh_token = isset($data['refresh_token']) && $data['refresh_token'] != '' ? $data['refresh_token'] : '';
 
