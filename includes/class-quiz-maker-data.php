@@ -2673,7 +2673,7 @@ class Quiz_Maker_Data {
 
 
         if ($quiz_fields_placeholder_nick === 'Nick') {
-            $quiz_fields_placeholder_nick_text = __('Nick', AYS_QUIZ_NAME);
+            $quiz_fields_placeholder_nick_text = __('Nick', AYS_QUIZ_NICK);
         }else{
             $quiz_fields_placeholder_nick_text = $quiz_fields_placeholder_nick;
         }
