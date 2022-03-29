@@ -2150,7 +2150,7 @@ class Quiz_Maker_Admin
                 'api_user_id_header'     => __( "User ID", $this->plugin_name ),
                 'api_user_header'        => __( "User", $this->plugin_name ),
                 'api_user_mail_header'   => __( "Email", $this->plugin_name ),
-                'api_user_nick_header'   => __( "Nick.", $this->plugin_name ),
+                'api_user_nick_header'   => __( "Nick", $this->plugin_name ),
                 'api_user_name_header'   => __( "Name", $this->plugin_name ),
                 'api_user_phone_header'  => __( "Phone", $this->plugin_name ),
                 'api_checked_header'     => __( "Checked", $this->plugin_name ),
@@ -2362,7 +2362,7 @@ class Quiz_Maker_Admin
             $quiz_form_attrs[] = array(
                 "id" => null,
                 "slug" => "ays_form_nick",
-                "nick" => __( "Nombre o Nick que se mostrara en la escarapela", $this->plugin_name ),
+                "nick" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
                 "type" => 'text'
             );
             $quiz_form_attrs[] = array(

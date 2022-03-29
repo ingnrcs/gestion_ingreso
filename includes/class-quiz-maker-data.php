@@ -335,7 +335,7 @@ class Quiz_Maker_Data {
             if ($last_result['nick_name'] != '') {
                 $td_value_html .= "
                 <tr>
-                    <td style='font-weight: 600; border: 1px solid #ccc;padding: 10px 11px 9px 6px;'>".__('Nick', AYS_QUIZ_NAME)."</td>
+                    <td style='font-weight: 600; border: 1px solid #ccc;padding: 10px 11px 9px 6px;'>".__('Nick', AYS_QUIZ_NICK)."</td>
                     <td style='border: 1px solid #ccc;text-align: center;padding: 10px 11px 9px 6px;' colspan='3'>" . $last_result['nick_name'] . "</td>
                 </tr>";
             }
@@ -2673,7 +2673,7 @@ class Quiz_Maker_Data {
         $quiz_fields_placeholder_nick  = (isset($settings_placeholders_texts['quiz_fields_placeholder_nick']) && $settings_placeholders_texts['quiz_fields_placeholder_nick'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_nick'] ) ) : 'Nick';
 
         if ($quiz_fields_placeholder_nick === 'Nick') {
-            $quiz_fields_placeholder_nick_text = __('Nick', AYS_QUIZ_NICK);
+            $quiz_fields_placeholder_nick_text = __('Nick o nombre como deseas que aparezca en la escarapela', AYS_QUIZ_NICK);
         }else{
             $quiz_fields_placeholder_nick_text = $quiz_fields_placeholder_nick;
         }
