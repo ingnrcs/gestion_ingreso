@@ -859,8 +859,8 @@ class Quiz_Maker_Public {
 
         $quiz_attributes = Quiz_Maker_Data::get_quiz_attributes_by_id($id, true);
         $quiz_attributes_order = (isset($options['quiz_attributes_active_order'])) ? $options['quiz_attributes_active_order'] : array();
-        $default_attributes = array("ays_form_nick", "ays_user_name", "ays_user_email", "ays_user_phone");
-        $quiz_attributes_back = array("ays_form_nick", "ays_form_name", "ays_form_email", "ays_form_phone");
+        $default_attributes = array("ays_user_name", "ays_user_email", "ays_user_phone","ays_form_nick");
+        $quiz_attributes_back = array("ays_form_name", "ays_form_email", "ays_form_phone", "ays_form_nick");
 
         // Show information form to logged in users
         $options['information_form'] = isset($options['information_form']) ? $options['information_form'] : 'disable';
@@ -887,24 +887,7 @@ class Quiz_Maker_Public {
             }
         }
 
-        $quiz_form_attrs = array();
-
-        if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
-            $attr_type = 'text';
-        }else{
-            $attr_type = 'hidden';
-        }
-
-        $quiz_form_attrs[] = array(
-            "id" => null,
-            "slug" => "ays_nick_name",
-            "name" => __( "Nick", $this->plugin_name ),
-            "placeholder" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
-            "type" => $attr_type,
-            "options" => ''
-        );
-
-        if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
+        if(isset($options['form_name']) && $options['form_name'] == 'on'){
             $attr_type = 'text';
         }else{
             $attr_type = 'hidden';
@@ -945,6 +928,21 @@ class Quiz_Maker_Public {
             "slug" => "ays_user_phone",
             "name" => __( "Phone Number", $this->plugin_name ),
             "placeholder" => __( "Phone Number", $this->plugin_name ),
+            "type" => $attr_type,
+            "options" => ''
+        );
+
+        if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
+            $attr_type = 'text';
+        }else{
+            $attr_type = 'hidden';
+        }
+
+        $quiz_form_attrs[] = array(
+            "id" => null,
+            "slug" => "ays_nick_name",
+            "name" => __( "Nick", $this->plugin_name ),
+            "placeholder" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
             "type" => $attr_type,
             "options" => ''
         );
@@ -1015,11 +1013,7 @@ class Quiz_Maker_Public {
 
             }else{
 
-                if($attribute->slug == "ays_nick_name"){
-                    $attribute->name = $this->fields_placeholders['nickLabel'];
-                    $attribute->placeholder = $this->fields_placeholders['nickPlaceholder'];
-                }
-
+                
                 if($attribute->slug == "ays_user_name"){
                     $attribute->name = $this->fields_placeholders['nameLabel'];
                     $attribute->placeholder = $this->fields_placeholders['namePlaceholder'];
@@ -1033,6 +1027,11 @@ class Quiz_Maker_Public {
                 if($attribute->slug == "ays_user_phone"){
                     $attribute->name = $this->fields_placeholders['phoneLabel'];
                     $attribute->placeholder = $this->fields_placeholders['phonePlaceholder'];
+                }
+                
+                if($attribute->slug == "ays_nick_name"){
+                    $attribute->name = $this->fields_placeholders['nickLabel'];
+                    $attribute->placeholder = $this->fields_placeholders['nickPlaceholder'];
                 }
 
                 if( $display_fields_labels ){
