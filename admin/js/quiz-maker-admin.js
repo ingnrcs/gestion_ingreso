@@ -536,7 +536,7 @@
             containment: ".checkbox_carousel",
             receive: function(event, ui) {
                 var item = ui.item;
-                var $default_attributes = ["ays_form_name","ays_form_email","ays_form_phone"];
+                var $default_attributes = ["ays_form_nick","ays_form_name","ays_form_email","ays_form_phone"];
                 item.find('.custom_field_required').addClass('display_none');
                 item.removeClass('ui-state-highlight').addClass('ui-state-default');
                 item.find('input[name="ays_quiz_attributes[]"]').attr('name', 'ays_quiz_attributes_passive[]');
@@ -560,7 +560,7 @@
             containment: ".checkbox_carousel",
             receive: function(event, ui) {
                 var item = ui.item;
-                var $default_attributes = ["ays_form_name","ays_form_email","ays_form_phone"];
+                var $default_attributes = ["ays_form_nick","ays_form_name","ays_form_email","ays_form_phone"];
                 item.find('.custom_field_required').removeClass('display_none');
                 item.removeClass('ui-state-default').addClass('ui-state-highlight');
                 item.find('input[name="ays_quiz_attributes_passive[]"]').attr('name', 'ays_quiz_attributes[]');

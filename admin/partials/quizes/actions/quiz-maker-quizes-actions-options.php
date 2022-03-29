@@ -36,6 +36,7 @@ $options = array(
     'width' => 400,
     'timer' => 100,
     'information_form' => 'disable',
+    'form_nick' => '',
     'form_name' => '',
     'form_email' => '',
     'form_phone' => '',
@@ -256,6 +257,7 @@ $options = array(
     'quiz_attributes' => array(),
     "certificate_title" => '<span style="font-size:50px; font-weight:bold">Certificate of Completion</span>',
     "certificate_body" => '<span style="font-size:25px"><i>This is to certify that</i></span><br><br>
+            <span style="font-size:30px"><b>%%nick_name%%</b></span><br/><br/>
             <span style="font-size:30px"><b>%%user_name%%</b></span><br/><br/>
             <span style="font-size:25px"><i>has completed the quiz</i></span><br/><br/>
             <span style="font-size:30px">"%%quiz_name%%"</span> <br/><br/>
@@ -348,6 +350,7 @@ switch ($action) {
         }
         if( ! isset( $options['certificate_body'] ) || $options['certificate_body'] == '' ){
             $options['certificate_body'] = '<span style="font-size:25px"><i>This is to certify that</i></span><br><br>
+                <span style="font-size:30px"><b>%%nick_name%%</b></span><br/><br/>
                 <span style="font-size:30px"><b>%%user_name%%</b></span><br/><br/>
                 <span style="font-size:25px"><i>has completed the quiz</i></span><br/><br/>
                 <span style="font-size:30px">"%%quiz_name%%"</span> <br/><br/>
@@ -551,10 +554,13 @@ $quiz_attributes = (isset($options['quiz_attributes'])) ? $options['quiz_attribu
 $required_fields = (isset($options['required_fields'])) ? $options['required_fields'] : array();
 $quiz_attributes_active_order = (isset($options['quiz_attributes_active_order'])) ? $options['quiz_attributes_active_order'] : array();
 $quiz_attributes_passive_order = (isset($options['quiz_attributes_passive_order'])) ? $options['quiz_attributes_passive_order'] : array();
-$default_attributes = array("ays_form_name", "ays_form_email", "ays_form_phone");
+$default_attributes = array("ays_form_nick","ays_form_name", "ays_form_email", "ays_form_phone");
 $quiz_attributes_checked = array();
 $quiz_form_attrs = array();
 
+if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
+    $quiz_attributes_checked[] = "ays_form_nick";
+}
 if(isset($options['form_name']) && $options['form_name'] == 'on'){
     $quiz_attributes_checked[] = "ays_form_name";
 }
@@ -565,6 +571,12 @@ if(isset($options['form_phone']) && $options['form_phone'] == 'on'){
     $quiz_attributes_checked[] = "ays_form_phone";
 }
 
+$quiz_form_attrs[] = array(
+    "id" => null,
+    "slug" => "ays_form_nick",
+    "name" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
+    "type" => 'text'
+);
 $quiz_form_attrs[] = array(
     "id" => null,
     "slug" => "ays_form_name",

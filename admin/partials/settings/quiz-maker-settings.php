@@ -415,6 +415,7 @@
 
     //default all results column
     $default_all_results_columns = array(
+        'nick_name'    => 'nick_name',
         'user_name'    => 'user_name',
         'quiz_name'    => 'quiz_name',
         'start_date'   => 'start_date',
@@ -473,6 +474,7 @@
     $all_results_columns_order = $all_results_columns_order_arr;
 
     $default_all_results_column_names = array(
+        "nick_name"  => __( 'Nick name', $this->plugin_name),
         "user_name"  => __( 'User name', $this->plugin_name),
         "quiz_name"  => __( 'Quiz name', $this->plugin_name ),
         "start_date" => __( 'Start date',$this->plugin_name ),
@@ -507,6 +509,7 @@
 
     // Default quiz all results column
     $default_quiz_all_results_columns = array(
+        'nick_name'    => 'nick_name',
         'user_name'    => 'user_name',
         'start_date'   => 'start_date',
         'end_date'     => 'end_date',
@@ -515,6 +518,7 @@
     );
 
     $default_quiz_all_results_column_names = array(
+        "nick_name"  => __( 'Nick name', $this->plugin_name ),
         "user_name"  => __( 'User name', $this->plugin_name ),
         "start_date" => __( 'Start date',$this->plugin_name ),
         "end_date"   => __( 'End date',  $this->plugin_name ),
@@ -3132,6 +3136,15 @@
                     <hr>
                     <div class="form-group row">
                         <div class="col-sm-12">
+                            <p class="vmessage">
+                                <strong>
+                                    <input type="text" onClick="this.setSelectionRange(0, this.value.length)" readonly value="%%nick_name%%"/>
+                                </strong>
+                                <span> - </span>
+                                <span style="font-size:18px;">
+                                    <?php echo __( "The Nickname the user entered into information form", $this->plugin_name); ?>
+                                </span>
+                            </p>    
                             <p class="vmessage">
                                 <strong>
                                     <input type="text" onClick="this.setSelectionRange(0, this.value.length)" readonly value="%%user_name%%"/>

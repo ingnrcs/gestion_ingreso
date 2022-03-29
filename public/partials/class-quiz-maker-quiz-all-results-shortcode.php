@@ -109,7 +109,7 @@ class Quiz_Maker_Quiz_All_Results
 
         $reports_table = $wpdb->prefix . "aysquiz_reports";
         $quizes_table = $wpdb->prefix . "aysquiz_quizes";
-        $sql = "SELECT q.title, r.options, r.start_date, r.end_date, r.duration, r.score, r.id, r.user_name, r.user_id,
+        $sql = "SELECT q.title, r.options, r.start_date, r.end_date, r.duration, r.score, r.id, r.nick_name, r.user_name, r.user_id,
                        TIMESTAMPDIFF(second, r.start_date, r.end_date) AS duration_2
                 FROM $reports_table AS r
                 LEFT JOIN $quizes_table AS q
@@ -144,6 +144,7 @@ class Quiz_Maker_Quiz_All_Results
         $quiz_results_custom_fields = isset($custom_fields['quiz_results']) && !empty($custom_fields['quiz_results']) ? $custom_fields['quiz_results'] : array();
 
         $default_quiz_all_results_columns = array(
+            'nick_name'  => 'nick_name',
             'user_name'  => 'user_name',
             'start_date' => 'start_date',
             'end_date'   => 'end_date',
@@ -161,6 +162,7 @@ class Quiz_Maker_Quiz_All_Results
         $quiz_all_results_columns_order = (isset( $quiz_set_option['quiz_all_results_columns_order'] ) && !empty($quiz_set_option['quiz_all_results_columns_order']) ) ? $quiz_set_option['quiz_all_results_columns_order'] : $default_quiz_all_results_columns;
 
         $ays_default_header_value = array(
+            "nick_name"     => "<th style='width:20%;'>" . __( "Nick Name", $this->plugin_name ) . "</th>",
             "user_name"     => "<th style='width:20%;'>" . __( "User Name", $this->plugin_name ) . "</th>",
             "start_date"    => "<th style='width:17%;'>" . __( "Start", $this->plugin_name ) . "</th>",
             "end_date"      => "<th style='width:17%;'>" . __( "End", $this->plugin_name ) . "</th>",
@@ -230,6 +232,7 @@ class Quiz_Maker_Quiz_All_Results
                 }
             }
             $ays_default_html_order = array(
+                "nick_name" => "<td>$nick_name</td>",
                 "user_name" => "<td>$user_name</td>",
                 "start_date" => "<td data-order='". $start_date_for_ordering ."'>$start_date</td>",
                 "end_date" => "<td data-order='". $end_date_for_ordering ."'>$end_date</td>",

@@ -175,6 +175,7 @@ class Quiz_Each_Results_List_Table extends WP_List_Table{
         $search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : false;
         if( $search ){
             $s = array();
+            $s[] = ' `nick_name` LIKE \'%'. esc_sql( $wpdb->esc_like( $search ) ) .'%\' ';
             $s[] = ' `user_name` LIKE \'%'. esc_sql( $wpdb->esc_like( $search ) ) .'%\' ';
             $s[] = ' `user_email` LIKE \'%'. esc_sql( $wpdb->esc_like( $search ) ) .'%\' ';
             $s[] = ' `user_phone` LIKE \'%'. esc_sql( $wpdb->esc_like( $search ) ) .'%\' ';
@@ -468,6 +469,7 @@ class Quiz_Each_Results_List_Table extends WP_List_Table{
         switch ($column_name) {
             case 'user_id':
             case 'user_ip':
+            case 'nick_name':
             case 'user_name':
             case 'user_email':
             case 'rate':
@@ -679,6 +681,7 @@ class Quiz_Each_Results_List_Table extends WP_List_Table{
             'cb'            => '<input type="checkbox" />',
             'user_id'       => __( 'WP User', $this->plugin_name ),
             'user_ip'       => __( 'User IP', $this->plugin_name ),
+            'nick_name'     => __( 'Nick Name', $this->plugin_name ),
             'user_name'     => __( 'User Name', $this->plugin_name ),
             'user_email'    => __( 'User Email', $this->plugin_name ),
             'user_phone'    => __( 'User Phone', $this->plugin_name ),
@@ -740,6 +743,7 @@ class Quiz_Each_Results_List_Table extends WP_List_Table{
             'id'  => array( 'id', true ),
             'user_id'       => array( 'user_id', true ),
             'user_ip'       => array( 'user_ip', true ),
+            'nick_name'     => array( 'nick_name', true ),
             'user_name'     => array( 'user_name', true ),
             'user_email'    => array( 'user_email', true ),
             'user_phone'    => array( 'user_phone', true ),

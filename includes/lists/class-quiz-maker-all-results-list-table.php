@@ -198,6 +198,7 @@ class All_Results_List_Table extends WP_List_Table{
         $search = isset( $_POST['s'] ) ? sanitize_text_field( $_POST['s'] ) : false;
         if( $search !== null || $search !== false ){
             $s = array();
+            $s[] = sprintf( " `nick_name` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_name` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_email` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_phone` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
@@ -469,6 +470,7 @@ class All_Results_List_Table extends WP_List_Table{
             case 'quiz_id':
             case 'user_id':
             case 'user_ip':
+            case 'nick_name':
             case 'user_name':
             case 'user_email':
             case 'user_phone':
@@ -656,6 +658,7 @@ class All_Results_List_Table extends WP_List_Table{
             'quiz_id'               => __( 'Quiz', $this->plugin_name ),
             'user_id'               => __( 'WP User', $this->plugin_name ),
             'user_ip'               => __( 'User IP', $this->plugin_name ),
+            'nick_name'             => __( 'Nick Name', $this->plugin_name ),            
             'user_name'             => __( 'Name', $this->plugin_name ),
             'user_email'            => __( 'Email', $this->plugin_name ),
             'user_phone'            => __( 'Phone', $this->plugin_name ),
@@ -685,6 +688,7 @@ class All_Results_List_Table extends WP_List_Table{
             'user_ip'       => array( 'user_ip', true ),
             'start_date'    => array( 'start_date', true ),
             'score'         => array( 'score', true ),
+            'nick_name'     => array( 'nick_name', true ),
             'user_name'     => array( 'user_name', true ),
             'user_email'    => array( 'user_email', true ),
             'user_phone'    => array( 'user_phone', true ),

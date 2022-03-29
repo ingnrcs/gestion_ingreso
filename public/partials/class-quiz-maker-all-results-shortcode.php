@@ -104,7 +104,7 @@ class Quiz_Maker_All_Results
 
         $reports_table = $wpdb->prefix . "aysquiz_reports";
         $quizes_table = $wpdb->prefix . "aysquiz_quizes";
-        $sql = "SELECT r.quiz_id, r.options, q.title, r.start_date, r.end_date, r.duration, r.score, r.id, r.user_name, r.user_id,
+        $sql = "SELECT r.quiz_id, r.options, q.title, r.start_date, r.end_date, r.duration, r.score, r.id, r.nick_name, r.user_name, r.user_id,
                     TIMESTAMPDIFF(second, r.start_date, r.end_date) AS duration_2
                 FROM $reports_table AS r
                 LEFT JOIN $quizes_table AS q
@@ -146,6 +146,7 @@ class Quiz_Maker_All_Results
         $user_results_custom_fields = isset($custom_fields['user_results']) && !empty($custom_fields['user_results']) ? $custom_fields['user_results'] : array();
 
         $default_all_results_columns = array(
+            'nick_name'  => 'nick_name',
             'user_name'  => 'user_name',
             'quiz_name'  => 'quiz_name',
             'start_date' => 'start_date',
@@ -203,6 +204,7 @@ class Quiz_Maker_All_Results
         $all_results_columns_order = $all_results_columns_order_arr;
 
         $default_all_results_column_names = array(
+            "nick_name"     => __( 'Nick name', $this->plugin_name ),
             "user_name"     => __( 'User name', $this->plugin_name ),
             "quiz_name"     => __( 'Quiz name', $this->plugin_name ),
             "start_date"    => __( 'Start date', $this->plugin_name ),
@@ -219,6 +221,7 @@ class Quiz_Maker_All_Results
         }
 
         $ays_default_header_value = array(
+            "nick_name"     => "<th style='width:20%;'>" . __( "Nick Name", $this->plugin_name ) . "</th>",
             "user_name"     => "<th style='width:20%;'>" . __( "User Name", $this->plugin_name ) . "</th>",
             "quiz_name"     => "<th style='width:20%;'>" . __( "Quiz Name", $this->plugin_name ) . "</th>",
             "start_date"    => "<th style='width:15%;'>" . __( "Start", $this->plugin_name ) . "</th>",
@@ -335,6 +338,7 @@ class Quiz_Maker_All_Results
             }
 
             $ays_default_html_order = array(
+                "nick_name"     => "<td>$nick_name</td>",
                 "user_name"     => "<td>$user_name</td>",
                 "quiz_name"     => "<td>$title</td>",
                 "start_date"    => "<td data-order='". $start_date_for_ordering ."'>$start_date</td>",

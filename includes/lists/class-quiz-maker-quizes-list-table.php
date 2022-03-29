@@ -307,6 +307,7 @@ class Quizes_List_Table extends WP_List_Table{
             }
 
             $ays_information_form               = !isset($data['ays_information_form']) ? "disable" : $data['ays_information_form'];
+            $ays_form_nick                      = !isset($data['ays_form_nick']) ? "off" : $data['ays_form_nick'];
             $ays_form_name                      = !isset($data['ays_form_name']) ? "off" : $data['ays_form_name'];
             $ays_form_email                     = !isset($data['ays_form_email']) ? "off" : $data['ays_form_email'];
             $ays_form_phone                     = !isset($data['ays_form_phone']) ? "off" : $data['ays_form_phone'];
@@ -418,6 +419,9 @@ class Quizes_List_Table extends WP_List_Table{
 
             $google_sheet_custom_fields = array();
             $google_sheet_custom_fields_ordered = array();
+            if( $ays_form_nick == 'on' ){
+                $google_sheet_custom_fields['ays_form_nick'] = __( "Nick", $this->plugin_name );
+            }
             if( $ays_form_name == 'on' ){
                 $google_sheet_custom_fields['ays_form_name'] = __( "Name", $this->plugin_name );
             }
@@ -1046,6 +1050,7 @@ class Quizes_List_Table extends WP_List_Table{
                 'width'                         => absint( intval( $data['ays_quiz_width'] ) ),
                 'enable_logged_users'           => $ays_enable_logged_users,
                 'information_form'              => $ays_information_form,
+                'form_nick'                     => $ays_form_nick,
                 'form_name'                     => $ays_form_name,
                 'form_email'                    => $ays_form_email,
                 'form_phone'                    => $ays_form_phone,

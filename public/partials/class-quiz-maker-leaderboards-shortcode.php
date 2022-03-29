@@ -231,6 +231,7 @@ class Quiz_Maker_Leaderboards_Shortcode
                             JOIN (
                                     SELECT
                                         user_id,
+                                        nick_name,
                                         user_name,
                                         CAST(`score` AS DECIMAL(10,0)) AS score,
                                         CAST(`duration` AS DECIMAL(10,0)) AS duration,
@@ -250,6 +251,7 @@ class Quiz_Maker_Leaderboards_Shortcode
                 if($ind_leadboard_sort == 'avg'){
                     $sql = "SELECT
                                 user_id,
+                                nick_name,
                                 user_name,
                                 ".$duration_avg."(CAST(duration AS DECIMAL(10))) AS dur_avg,
                                 ".strtoupper($ind_leadboard_sort)."(CAST(score AS DECIMAL(10))) AS avg_score,

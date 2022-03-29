@@ -153,6 +153,7 @@ class All_Reviews_List_Table extends WP_List_Table{
         if( $search ){
             $s = array();
             $s[] = sprintf( " `id` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
+            $s[] = sprintf( " `nick_name` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_name` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_email` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
             $s[] = sprintf( " `user_id` LIKE '%%%s%%' ", esc_sql( $wpdb->esc_like( $search ) ) );
@@ -258,6 +259,7 @@ class All_Reviews_List_Table extends WP_List_Table{
         switch ( $column_name ) {
             case 'user_id':
             case 'user_ip':
+            case 'nick_name':    
             case 'user_name':
             case 'user_email':
             case 'rate_date':
@@ -361,6 +363,7 @@ class All_Reviews_List_Table extends WP_List_Table{
             'cb'          => '<input type="checkbox" />',
             'user_id'     => __( 'WP User', $this->plugin_name ),
             'user_ip'     => __( 'User IP', $this->plugin_name ),
+            'nick_name'   => __( 'Nick Name', $this->plugin_name ),    
             'user_name'   => __( 'Name', $this->plugin_name ),
             'user_email'  => __( 'Email', $this->plugin_name ),
             'rate_date'   => __( 'Rate Date', $this->plugin_name ),
@@ -384,6 +387,7 @@ class All_Reviews_List_Table extends WP_List_Table{
             'user_ip'       => array( 'user_ip', true ),
             'rate_date'     => array( 'rate_date', true ),
             'score'         => array( 'score', true ),
+            'nick_name'     => array( 'nick_name', true ),
             'user_name'     => array( 'user_name', true ),
             'user_email'    => array( 'user_email', true ),
             'id'            => array( 'id', true ),

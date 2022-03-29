@@ -80,6 +80,7 @@
                     data: userData,
                     success: function (response) {
                         if(response !== null){
+                            $this.find("input[name='ays_nick_name']").val(response.data.display_nick);
                             $this.find("input[name='ays_user_name']").val(response.data.display_name);
                             $this.find("input[name='ays_user_email']").val(response.data.user_email);
                         }

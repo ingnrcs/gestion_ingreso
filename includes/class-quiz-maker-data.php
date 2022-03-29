@@ -318,6 +318,8 @@ class Quiz_Maker_Data {
 
         $result_attributes = $last_results['attributes_information'];
 
+        $last_result['nick_name'] = empty($last_result['nick_name']) || $last_result['nick_name'] == '' ? '' : $last_result['nick_name'];
+        
         $last_result['user_name'] = empty($last_result['user_name']) || $last_result['user_name'] == '' ? '' : $last_result['user_name'];
 
         $last_result['user_email'] = empty($last_result['user_email']) || $last_result['user_email'] == '' ? '' : $last_result['user_email'];
@@ -330,6 +332,13 @@ class Quiz_Maker_Data {
         $ays_rtl_styles = '';
         $td_value_html = '';
         if($send_info){
+            if ($last_result['nick_name'] != '') {
+                $td_value_html .= "
+                <tr>
+                    <td style='font-weight: 600; border: 1px solid #ccc;padding: 10px 11px 9px 6px;'>".__('Nick', AYS_QUIZ_NAME)."</td>
+                    <td style='border: 1px solid #ccc;text-align: center;padding: 10px 11px 9px 6px;' colspan='3'>" . $last_result['nick_name'] . "</td>
+                </tr>";
+            }
             if ($last_result['user_name'] != '') {
                 $td_value_html .= "
                 <tr>
@@ -2646,12 +2655,16 @@ class Quiz_Maker_Data {
             $settings_placeholders_texts = array();
         }
 
+        $quiz_fields_placeholder_nick  = (isset($settings_placeholders_texts['quiz_fields_placeholder_nick']) && $settings_placeholders_texts['quiz_fields_placeholder_nick'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_nick'] ) ) : 'Nick';
+
         $quiz_fields_placeholder_name  = (isset($settings_placeholders_texts['quiz_fields_placeholder_name']) && $settings_placeholders_texts['quiz_fields_placeholder_name'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_name'] ) ) : 'Name';
 
         $quiz_fields_placeholder_eamil = (isset($settings_placeholders_texts['quiz_fields_placeholder_eamil']) && $settings_placeholders_texts['quiz_fields_placeholder_eamil'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_eamil'] ) ) : 'Email';
 
         $quiz_fields_placeholder_phone = (isset($settings_placeholders_texts['quiz_fields_placeholder_phone']) && $settings_placeholders_texts['quiz_fields_placeholder_phone'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_placeholder_phone'] ) ) : 'Phone Number';
 
+        $quiz_fields_label_nick  = (isset($settings_placeholders_texts['quiz_fields_label_nick']) && $settings_placeholders_texts['quiz_fields_label_nick'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_label_nick'] ) ) : 'Nick';
+        
         $quiz_fields_label_name  = (isset($settings_placeholders_texts['quiz_fields_label_name']) && $settings_placeholders_texts['quiz_fields_label_name'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_label_name'] ) ) : 'Name';
 
         $quiz_fields_label_eamil = (isset($settings_placeholders_texts['quiz_fields_label_eamil']) && $settings_placeholders_texts['quiz_fields_label_eamil'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_label_eamil'] ) ) : 'Email';
@@ -2659,6 +2672,11 @@ class Quiz_Maker_Data {
         $quiz_fields_label_phone = (isset($settings_placeholders_texts['quiz_fields_label_phone']) && $settings_placeholders_texts['quiz_fields_label_phone'] != '') ? stripslashes( esc_attr( $settings_placeholders_texts['quiz_fields_label_phone'] ) ) : 'Phone Number';
 
 
+        if ($quiz_fields_placeholder_nick === 'Nick') {
+            $quiz_fields_placeholder_nick_text = __('Nick', AYS_QUIZ_NAME);
+        }else{
+            $quiz_fields_placeholder_nick_text = $quiz_fields_placeholder_nick;
+        }
         if ($quiz_fields_placeholder_name === 'Name') {
             $quiz_fields_placeholder_name_text = __('Name', AYS_QUIZ_NAME);
         }else{
@@ -2677,6 +2695,11 @@ class Quiz_Maker_Data {
             $quiz_fields_placeholder_phone_text = $quiz_fields_placeholder_phone;
         }
 
+        if ($quiz_fields_label_nick === 'Nick') {
+            $quiz_fields_label_nick_text = __('Nick', AYS_QUIZ_NICK);
+        }else{
+            $quiz_fields_label_nick_text = $quiz_fields_label_nick;
+        }
         if ($quiz_fields_label_name === 'Name') {
             $quiz_fields_label_name_text = __('Name', AYS_QUIZ_NAME);
         }else{
@@ -2696,9 +2719,11 @@ class Quiz_Maker_Data {
         }
 
         $texts = array(
+            'nickPlaceholder'       => $quiz_fields_placeholder_nick_text,
             'namePlaceholder'       => $quiz_fields_placeholder_name_text,
             'emailPlaceholder'      => $quiz_fields_placeholder_eamil_text,
             'phonePlaceholder'      => $quiz_fields_placeholder_phone_text,
+            'nickLabel'             => $quiz_fields_label_nick_text,
             'nameLabel'             => $quiz_fields_label_name_text,
             'emailLabel'            => $quiz_fields_label_eamil_text,
             'phoneLabel'            => $quiz_fields_label_phone_text,

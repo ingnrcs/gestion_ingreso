@@ -2150,6 +2150,7 @@ class Quiz_Maker_Admin
                 'api_user_id_header'     => __( "User ID", $this->plugin_name ),
                 'api_user_header'        => __( "User", $this->plugin_name ),
                 'api_user_mail_header'   => __( "Email", $this->plugin_name ),
+                'api_user_nick_header'   => __( "Nick", $this->plugin_name ),
                 'api_user_name_header'   => __( "Name", $this->plugin_name ),
                 'api_user_phone_header'  => __( "Phone", $this->plugin_name ),
                 'api_checked_header'     => __( "Checked", $this->plugin_name ),
@@ -2160,6 +2161,7 @@ class Quiz_Maker_Admin
                 'api_user_id'     =>  $user_id."",
                 'api_user'        =>  $user,
                 'api_user_mail'   =>  $email,
+                'api_user_nick'   =>  $nick_name,
                 'api_user_name'   =>  $user_name,
                 'api_user_phone'  =>  $user_phone,
 
@@ -2340,10 +2342,13 @@ class Quiz_Maker_Admin
             $required_fields = (isset($options['required_fields'])) ? $options['required_fields'] : array();
             $quiz_attributes_active_order = (isset($options['quiz_attributes_active_order'])) ? $options['quiz_attributes_active_order'] : array();
             $quiz_attributes_passive_order = (isset($options['quiz_attributes_passive_order'])) ? $options['quiz_attributes_passive_order'] : array();
-            $default_attributes = array("ays_form_name", "ays_form_email", "ays_form_phone");
+            $default_attributes = array("ays_form_nick", "ays_form_name", "ays_form_email", "ays_form_phone");
             $quiz_attributes_checked = array();
             $quiz_form_attrs = array();
 
+            if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
+                $quiz_attributes_checked[] = "ays_form_nick";
+            }
             if(isset($options['form_name']) && $options['form_name'] == 'on'){
                 $quiz_attributes_checked[] = "ays_form_name";
             }
@@ -2354,6 +2359,12 @@ class Quiz_Maker_Admin
                 $quiz_attributes_checked[] = "ays_form_phone";
             }
 
+            $quiz_form_attrs[] = array(
+                "id" => null,
+                "slug" => "ays_form_nick",
+                "nick" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
+                "type" => 'text'
+            );
             $quiz_form_attrs[] = array(
                 "id" => null,
                 "slug" => "ays_form_name",
@@ -2423,6 +2434,7 @@ class Quiz_Maker_Admin
                 $user      = get_user_by('id', $user_id);
                 $user      = ($user_id === 0) ? 'Guest' : $user->data->display_name;
                 $email     = (isset($result->user_email) && ($result->user_email !== '' || $result->user_email !== null)) ? stripslashes($result->user_email) : '';
+                $user_nic  = (isset($result->nick_name) && ($result->nick_name !== '' || $result->nick_name !== null)) ? stripslashes($result->nick_name) : '';
                 $user_nam  = (isset($result->user_name) && ($result->user_name !== '' || $result->user_name !== null)) ? stripslashes($result->user_name) : '';
                 $user_phone  = (isset($result->user_phone) && ($result->user_phone !== '' || $result->user_phone !== null)) ? stripslashes($result->user_phone) : '';
 
@@ -2438,6 +2450,7 @@ class Quiz_Maker_Admin
                     }
                 }
 
+                $nick_name = html_entity_decode(strip_tags(stripslashes($user_nic)));
                 $user_name = html_entity_decode(strip_tags(stripslashes($user_nam)));
                 $options   = json_decode($result->options);
 
@@ -2451,6 +2464,10 @@ class Quiz_Maker_Admin
 
                 foreach ($custom_fields_active as $key => $custom_field) {
 
+                    if ( $custom_field['slug'] == 'ays_form_nick' ) {
+                        $user_attributes_tvyal[] = array( 'text' => $user_nic );
+                        continue;
+                    }
                     if ( $custom_field['slug'] == 'ays_form_name' ) {
                         $user_attributes_tvyal[] = array( 'text' => $user_nam );
                         continue;
@@ -2464,6 +2481,24 @@ class Quiz_Maker_Admin
                     if ( $custom_field['slug'] == 'ays_form_phone' ) {
                         $user_attributes_tvyal[] = array( 'text' => $user_phone );
                         continue;
+                    }
+
+                    if ($user_attributes !== null) {
+                        if( array_key_exists($custom_field['nick'], $user_attributes) ){
+                            $value = $user_attributes[ $custom_field['nick'] ];
+                            if(stripslashes($value) == ''){
+                                $attr_value = '';
+                            }else{
+                                $attr_value = stripslashes($value);
+                            }
+
+                            if($attr_value == 'on'){
+                                $attr_value = __('Checked',$this->plugin_name);
+                            }
+                            $custom_fild = array( 'text' => $attr_value );
+                        } else {
+                            $custom_fild = array( 'text' => '' );
+                        }
                     }
 
                     if ($user_attributes !== null) {
@@ -2506,6 +2541,9 @@ class Quiz_Maker_Admin
                             __('Guest', $this->plugin),
                         );
 
+                        if ($nick_name != '') {
+                            $user_name_arr[] = $nick_name;
+                        }
                         if ($user_name != '') {
                             $user_name_arr[] = $user_name;
                         }
@@ -3089,15 +3127,18 @@ class Quiz_Maker_Admin
             $res_points = floatval($points) . ' of ' . floatval($max_points);
             $user = get_user_by('id', $result['user_id']);
             if( $user !== false ){
+                $nick_name = $user->data->display_nick;
                 $user_name = $user->data->display_name;
                 $user_roles_arr = $user->roles;
                 $user_roles = implode(',', $user_roles_arr);
             }else{
+                $nick_name = __( 'Guest', $this->plugin_name );
                 $user_name = __( 'Guest', $this->plugin_name );
                 $user_roles = __( 'Guest', $this->plugin_name );
             }
 
             $res_array = array(
+                'nick_' => $nick_name,
                 'user' => $user_name,
                 'user_ip' => $result['user_ip'],
                 'user_role' => $user_roles,
@@ -3109,7 +3150,8 @@ class Quiz_Maker_Admin
                 'duration' => $duration,
                 'rate' => (isset($rate_result['score']) && $rate_result['score'] != null) ?  $rate_result['score'] : '',
                 'review' => (isset($rate_result['review']) && $rate_result['review'] != null) ? stripslashes(htmlspecialchars(str_replace("\n", "", (strip_tags($rate_result['review']))))) : '',
-                'name' => (isset($result['user_name']) && $result['user_name'] != null) ? $result['user_name'] : '',
+                'nick' => (isset($result['_nick']) && $result['nick_name'] != null) ? $result['nick_name'] : '',
+                'name' => (isset($result['_name']) && $result['user_name'] != null) ? $result['user_name'] : '',
                 'email' => (isset($result['user_email']) && $result['user_email'] != null) ? $result['user_email'] : '',
                 'phone' => (isset($result['user_phone']) && $result['user_phone'] != null) ? $result['user_phone'] : '',                
             );
@@ -3159,6 +3201,7 @@ class Quiz_Maker_Admin
             'width' => 400,
             'timer' => 100,
             'information_form' => 'disable',
+            'form_nick' => '',
             'form_name' => '',
             'form_email' => '',
             'form_phone' => '',
@@ -3274,6 +3317,7 @@ class Quiz_Maker_Admin
             'quiz_attributes' => array(),
             "certificate_title" => '<span style="font-size:50px; font-weight:bold">Certificate of Completion</span>',
             "certificate_body" => '<span style="font-size:25px"><i>This is to certify that</i></span><br><br>
+                    <span style="font-size:30px"><b>%%nick_name%%</b></span><br/><br/>
                     <span style="font-size:30px"><b>%%user_name%%</b></span><br/><br/>
                     <span style="font-size:25px"><i>has completed the quiz</i></span><br/><br/>
                     <span style="font-size:30px">"%%quiz_name%%"</span> <br/><br/>
@@ -3527,6 +3571,7 @@ class Quiz_Maker_Admin
                         <td>".__('Email',$this->plugin_name)."</td>
                         <td colspan='3'>".stripslashes($results['user_email'])."</td>
                      </tr>";
+            
             }
             if(isset($results['user_name']) && $results['user_name'] !== ''){
                 $row .= "<tr class=\"ays_result_element\">

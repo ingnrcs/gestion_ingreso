@@ -859,8 +859,8 @@ class Quiz_Maker_Public {
 
         $quiz_attributes = Quiz_Maker_Data::get_quiz_attributes_by_id($id, true);
         $quiz_attributes_order = (isset($options['quiz_attributes_active_order'])) ? $options['quiz_attributes_active_order'] : array();
-        $default_attributes = array("ays_user_name", "ays_user_email", "ays_user_phone");
-        $quiz_attributes_back = array("ays_form_name", "ays_form_email", "ays_form_phone");
+        $default_attributes = array("ays_form_nick", "ays_user_name", "ays_user_email", "ays_user_phone");
+        $quiz_attributes_back = array("ays_form_nick", "ays_form_name", "ays_form_email", "ays_form_phone");
 
         // Show information form to logged in users
         $options['information_form'] = isset($options['information_form']) ? $options['information_form'] : 'disable';
@@ -889,7 +889,22 @@ class Quiz_Maker_Public {
 
         $quiz_form_attrs = array();
 
-        if(isset($options['form_name']) && $options['form_name'] == 'on'){
+        if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
+            $attr_type = 'text';
+        }else{
+            $attr_type = 'hidden';
+        }
+
+        $quiz_form_attrs[] = array(
+            "id" => null,
+            "slug" => "ays_nick_name",
+            "name" => __( "Nick", $this->plugin_name ),
+            "placeholder" => __( "Nick o nombre como deseas que aparezca en la escarapela", $this->plugin_name ),
+            "type" => $attr_type,
+            "options" => ''
+        );
+
+        if(isset($options['form_nick']) && $options['form_nick'] == 'on'){
             $attr_type = 'text';
         }else{
             $attr_type = 'hidden';
@@ -999,6 +1014,11 @@ class Quiz_Maker_Public {
                 $form_inputs .= "</div>";
 
             }else{
+
+                if($attribute->slug == "ays_nick_name"){
+                    $attribute->name = $this->fields_placeholders['nickLabel'];
+                    $attribute->placeholder = $this->fields_placeholders['nickPlaceholder'];
+                }
 
                 if($attribute->slug == "ays_user_name"){
                     $attribute->name = $this->fields_placeholders['nameLabel'];
@@ -5355,6 +5375,7 @@ class Quiz_Maker_Public {
                     $user = wp_get_current_user();
                     if($user->ID != 0){
                         $_REQUEST['ays_user_email'] = $user->data->user_email;
+                        $_REQUEST['ays_nick_name'] = $user->data->display_name;
                         $_REQUEST['ays_user_name'] = $user->data->display_name;
                     }
                 }
@@ -5365,6 +5386,7 @@ class Quiz_Maker_Public {
                     $user = wp_get_current_user();
                     if($user->ID != 0){
                         $_REQUEST['ays_user_email'] = $user->data->user_email;
+                        $_REQUEST['ays_nick_name'] = $user->data->display_name;
                         $_REQUEST['ays_user_name'] = $user->data->display_name;
                     }
                 }
@@ -6054,6 +6076,7 @@ class Quiz_Maker_Public {
 
                 $message_data = array(
                     'quiz_name' => stripslashes($quiz['title']),
+                    'nick_name' => stripslashes( sanitize_text_field( $_REQUEST['ays_nick_name'] ) ),
                     'user_name' => stripslashes( sanitize_text_field( $_REQUEST['ays_user_name'] ) ),
                     'user_email' => sanitize_email( $_REQUEST['ays_user_email'] ),
                     'user_pass_time' => Quiz_Maker_Data::get_time_difference(sanitize_text_field($_REQUEST['start_date']), sanitize_text_field($_REQUEST['end_date'])),
@@ -6154,6 +6177,7 @@ class Quiz_Maker_Public {
 
                 $data = array(
                     'user_ip' => $user_ip,
+                    'nick_name' => stripslashes( sanitize_text_field( $_REQUEST['ays_nick_name'] ) ),
                     'user_name' => stripslashes( sanitize_text_field( $_REQUEST['ays_user_name'] ) ),
                     'user_email' => sanitize_email( $_REQUEST['ays_user_email'] ),
                     'user_phone' => stripslashes( sanitize_text_field( $_REQUEST['ays_user_phone'] ) ),
@@ -6311,13 +6335,16 @@ class Quiz_Maker_Public {
                             $wp_user = get_userdata( get_current_user_id() );
                         }
                         $c_user_email = isset($_REQUEST['ays_user_email']) && $_REQUEST['ays_user_email'] != "" ? sanitize_email( $_REQUEST['ays_user_email'] ) : "";
+                        $c_nick_name = isset($_REQUEST['ays_nick_name']) && $_REQUEST['ays_nick_name'] != "" ? stripslashes( sanitize_text_field( $_REQUEST['ays_nick_name'] ) ) : "";
                         $c_user_name = isset($_REQUEST['ays_user_name']) && $_REQUEST['ays_user_name'] != "" ? stripslashes( sanitize_text_field( $_REQUEST['ays_user_name'] ) ) : "";
 
                         $cond_user_email = $c_user_email == "" ? $wp_user->data->user_email : $c_user_email;
+                        $cond_nick_name =  $c_nick_name  == "" ? $wp_user->data->display_nick : $c_nick_name;
                         $cond_user_name =  $c_user_name  == "" ? $wp_user->data->display_name : $c_user_name;
 
                         $conditions_email_data = array(
                             "cond_user_email"    => $cond_user_email,
+                            "cond_nick_name"     => $cond_nick_name,
                             "cond_user_name"     => $cond_user_name,
                             "cond_email_file_id" => $cond_email_file_id,
                             "cond_email_message"  => $cond_email_message,
@@ -7155,6 +7182,7 @@ class Quiz_Maker_Public {
         $started_status = isset($data['started_status']) ? $data['started_status'] : null;
 
         $user_ip = $data['user_ip'];
+        $nick_name = $data['nick_name'];
         $user_name = $data['user_name'];
         $user_email = $data['user_email'];
         $user_phone = $data['user_phone'];
@@ -7202,6 +7230,7 @@ class Quiz_Maker_Public {
         $db_fields = array(
             'quiz_id' => absint(intval($quiz_id)),
             'user_id' => get_current_user_id(),
+            'nick_name' => $nick_name,
             'user_name' => $user_name,
             'user_email' => $user_email,
             'user_phone' => $user_phone,
@@ -7223,6 +7252,7 @@ class Quiz_Maker_Public {
         $db_fields_types = array(
             '%d', // quiz_id
             '%d', // user_id
+            '%s', // nick_name
             '%s', // user_name
             '%s', // user_email
             '%s', // user_phone
@@ -7358,6 +7388,7 @@ class Quiz_Maker_Public {
                 'user_id'    => $user_id,
                 'report_id'  => $report_id,
                 'user_ip'    => $user_ip,
+                'nick_name'  => $nick_name,
                 'user_name'  => $user_name,
                 'user_email' => $user_email,
                 'user_phone' => $user_phone,
@@ -7371,6 +7402,7 @@ class Quiz_Maker_Public {
                 '%d', //user_id
                 '%d', //report_id
                 '%s', //user_ip
+                '%s', //nick_name
                 '%s', //user_name
                 '%s', //user_email
                 '%s', //user_phone
@@ -8103,6 +8135,7 @@ class Quiz_Maker_Public {
             }
         }
 
+        $quiz_attributes['ays_form_nick'] = isset($_POST['ays_nick_name'])  && $_POST['ays_nick_name']  != '' ? sanitize_text_field( $_POST['ays_nick_name'] )  : '';
         $quiz_attributes['ays_form_name'] = isset($_POST['ays_user_name'])  && $_POST['ays_user_name']  != '' ? sanitize_text_field( $_POST['ays_user_name'] )  : '';
         $quiz_attributes['ays_form_email'] = isset($_POST['ays_user_email']) && $_POST['ays_user_email'] != '' ? sanitize_email( $_POST['ays_user_email'] ) : '';
         $quiz_attributes['ays_form_phone'] = isset($_POST['ays_user_phone']) && $_POST['ays_user_phone'] != '' ? sanitize_text_field( $_POST['ays_user_phone'] ) : '';

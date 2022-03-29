@@ -236,6 +236,7 @@ $not_finished_res_url = add_query_arg( array(
 
                     $content .= "<li class='ays_lb_li'>
                                     <div class='ays_lb_pos'>".$c.".</div>
+                                    <div class='ays_lb_user'>".$nick_name."</div>
                                     <div class='ays_lb_user'>".$user_name."</div>
                                     <div class='ays_lb_score'>".$score." %</div>
                                     <div class='ays_lb_duration'>".$duration."s</div>
